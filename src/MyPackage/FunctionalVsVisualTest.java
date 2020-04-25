@@ -126,7 +126,18 @@ public class FunctionalVsVisualTest {
 
 		sconf.setViewportSize(new RectangleSize(1200, 600));
 
-		sconf.setBatch(new BatchInfo(testName));
+		String batchName = System.getenv("APPLITOOLS_BATCH_NAME");
+		String batchID = System.getenv("APPLITOOLS_BATCH_ID");
+		
+		if(batchName == null || batchName.length() == 0)
+			batchName = testName;
+		
+		BatchInfo batchInfo = new BatchInfo(batchName);
+		
+		if(batchID != null && batchID.length() > 0)
+			batchInfo.setId(batchID);
+		
+		sconf.setBatch(batchInfo);
 
 		sconf.addBrowser(1200, 800, BrowserType.CHROME);
 		sconf.addBrowser(1200, 800, BrowserType.FIREFOX);
