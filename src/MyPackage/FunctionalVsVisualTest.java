@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.util.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -84,15 +85,15 @@ public class FunctionalVsVisualTest {
 	public void After() {
 
 		try {
-			
+
 			eyes.closeAsync();
 
 			System.out.println(runner.getAllTestResults(false));
-			
+
 		} finally {
 			driver.quit();
 		}
-		
+
 	}
 
 	@BeforeMethod
@@ -108,7 +109,12 @@ public class FunctionalVsVisualTest {
 
 		eyes = new Eyes(runner);
 
-		driver = new ChromeDriver();
+		ChromeOptions chrome_options = new ChromeOptions();
+		chrome_options.addArguments("--headless");
+		chrome_options.addArguments("--no-sandbox");
+		chrome_options.addArguments("--disable-dev-shm-usage");
+
+		driver = new ChromeDriver(chrome_options);
 
 		Configuration sconf = eyes.getConfiguration();
 
